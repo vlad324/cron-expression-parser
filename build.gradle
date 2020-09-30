@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group 'io.github.vlad324'
+version 'CURRENT-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    implementation "org.apache.commons:commons-lang3:${commonsLang3Version}"
+
+    testImplementation "org.assertj:assertj-core:${assertjVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}"
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'io.github.vlad324.Application'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    archiveFileName = 'cron-expression-parser.jar'
+}
